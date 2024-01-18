@@ -1,0 +1,52 @@
+body {
+    background: url(Group\ 11.png);
+    font-family: 'Segoe UI', Tahoma,'Lucida Sans';
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#TestGeneralContainer {
+    background-color: #b36161;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+#question {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+#options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option {
+    background-color: #2e4432;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background-color:  #030504;
+}
+
+#result {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+#timer {
+    font-size: 16px;
+    margin-top: 10px;
+}

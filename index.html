@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>JavaScript Quiz</title>
+  </head>
+  <body>
+    <div id="TestGeneralContainer">
+      <div id="question"></div>
+      <div id="options"></div>
+      <div id="result"></div>
+      <div id="timer"></div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          question: "What does WTF stand for?",
+          options: [
+            "Women Techster Fellowship",
+            "Wool Transfer Fund",
+            "Wood Tree Fellowship",
+          ],
+          correctAnswer: 0,
+        },
+        {
+          question: "When was the last general election in Nigeria?",
+          options: ["2019", "2020", "2023"],
+          correctAnswer: 2,
+        },
+        {
+          question:
+            "What global initiative aims to ensure fair and equitable access to COVID-19 vaccines worldwide?",
+          options: ["COVAX", "VAXFUND", "PANCORONA"],
+          correctAnswer: 0,
+        },
+
+        {
+          question:
+            "Which country recently became the first in the world to officially approve the use of a COVID-19 vaccine for children under the age of 5?",
+          options: ["Nigeria", "China", "United States"],
+          correctAnswer: 2,
+        },
+
+        {
+          question:
+            "What landmark climate agreement was reached at COP26 in 2021, with countries pledging to limit global temperature increases to 1.5 degrees Celsius?",
+          options: ["Kyoto Protocol", "Eunice Imo", "Paris Agreement"],
+          correctAnswer: 2,
+        },
+
+        {
+          question:
+            "In 2022, which space agency successfully launched the James Webb Space Telescope, considered the successor to the Hubble Space Telescope?",
+          options: ["NASA", "European Space Agency", "Roscosmos"],
+          correctAnswer: 0,
+        },
+
+        {
+          question:
+            " What major sporting event was postponed in 2020 and eventually held in 2021 due to the COVID-19 pandemic?",
+          options: ["FIFA World Cup", "Wimblebom", "Tokyo Olympics"],
+          correctAnswer: 2,
+        },
+
+        {
+          question:
+            " Which social media platform faced significant scrutiny and controversies in 2021, leading to debates about user privacy and data security?",
+          options: ["Facebook", "Instagram", "Twitter"],
+          correctAnswer: 0,
+        },
+
+        {
+          question:
+            " What country experienced widespread protests and political unrest in 2021, primarily driven by demands for democratic reforms?",
+          options: ["Russia", "Brazil", "Myanmar"],
+          correctAnswer: 2,
+        },
+
+        {
+          question:
+            "In 2022, which tech company surpassed a market valuation of $3 trillion, becoming the first to achieve this milestone?",
+          options: ["Apple", "Amazon", "Google"],
+          correctAnswer: 0,
+        },
+      ];
+
+      const testTimeLimit = 10;
+      let currentQuestion = 0;
+      let score = 0;
+      let timer;
+
+      function startQuiz() {
+        showQuestion();
+        startTimer();
+      }
+
+      function showQuestion() {
+        const questionElement = document.getElementById("question");
+        const optionsElement = document.getElementById("options");
+        const resultElement = document.getElementById("result");
+
+        if (currentQuestion < questions.length) {
+          const currentQuestionData = questions[currentQuestion];
+
+          questionElement.textContent = currentQuestionData.question;
+          optionsElement.innerHTML = "";
+
+          currentQuestionData.options.forEach((option, index) => {
+            const optionButton = document.createElement("button");
+            optionButton.textContent = option;
+            optionButton.className = "option";
+            optionButton.addEventListener("click", () => handleAnswer(index));
+            optionsElement.appendChild(optionButton);
+          });
+
+          resultElement.textContent = "";
+        } else {
+          showResult();
+        }
+      }
+
+      function handleAnswer(selectedIndex) {
+        clearInterval(timer);
+
+        const currentQuestionData = questions[currentQuestion];
+
+        if (selectedIndex === currentQuestionData.correctAnswer) {
+          score++;
+          document.getElementById("result").textContent = "Correct!";
+        } else {
+          document.getElementById("result").textContent = "Incorrect.";
+        }
+
+        currentQuestion++;
+        setTimeout(() => {
+          showQuestion();
+          startTimer();
+          document.getElementById("result").textContent = "";
+        }, 2000);
+      }
+
+      function showResult() {
+        clearInterval(timer);
+
+        const resultElement = document.getElementById("result");
+        const scoreMessage = getScoreMessage();
+        resultElement.innerHTML = `
+          <p>Your score is ${score} out of ${questions.length}.</p>
+          <p>${scoreMessage}</p>
+        `;
+        document.getElementById("timer").textContent = "";
+      }
+
+      function startTimer() {
+        let timeRemaining = testTimeLimit;
+        timer = setInterval(() => {
+          document.getElementById(
+            "timer"
+          ).textContent = `Time remaining: ${timeRemaining} seconds`;
+
+          if (timeRemaining === 0) {
+            clearInterval(timer);
+            handleAnswer(-1);
+          }
+
+          timeRemaining--;
+        }, 1000);
+      }
+
+      function getScoreMessage() {
+        if (score === questions.length) {
+          return "Congratulations! You got all the questions correct!";
+        } else if (score >= Math.ceil(questions.length * 0.7)) {
+          return "Well done! You have a good understanding.";
+        } else {
+          return "You can review and try again. Keep learning!";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", startQuiz);
+    </script>
+  </body>
+</html>
